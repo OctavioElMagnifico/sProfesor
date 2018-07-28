@@ -1,6 +1,8 @@
-module Main where
+import ProfesorRobot
+--- Este programa lee un archivo fecha.txt que es actualizado por Bash y nos da los comandos de copia del día.
 
-import Lib
 
-main :: IO ()
-main = someFunc
+main = do {
+       entrada  <- readFile "fecha.txt";
+       putStrLn(darOrden ( aRclone (isoAFecha entrada) materias))
+    }
