@@ -20,6 +20,8 @@ El tipo Fecha no aclara el año. La naturaleza cuatrimestral del proceso lo hace
 
 Necesito derivar varias instancias a clases de tipos para poder realizar operaciones necesarias más tarde. Por ejemplo, no puedo constatar si una fecha está en una lista sin disponer de la instancia de Eq de la clase Fecha. 
 
+-----------------   Declaración de Tipos y sus Funciones Asociadas
+
 >data Fecha = Fecha Int Int
 >    deriving (Eq,Ord,Read)
 
@@ -37,6 +39,14 @@ Necesito derivar varias instancias a clases de tipos para poder realizar operaci
 Los eventos van a incluir el archivo que se debe mover en la fecha dada. 
 
 >type Evento = (Fecha , [Char])
+
+>instance Read Evento where
+>  read :: String -> Evento
+>  read evento = (fecha, suceso)
+>    where
+>      (día,mes) = words . takeWhile (/= ',') . tail  . dropWhile (/= ' ') $ evento
+>      fecha     = Fecha día mes
+>      suceso    = takeWhile (/= ')') . tail . dropWhile (/= ',') $ evento
 
 El tipo materia posee un nombre, un directorio de origen, uno de llegada y una lista de fechas.
 1 - Sería interesante ordenar los directorios de tal forma que sólo agrege cierto trozo a una ruta predecible para definir cada materia.
@@ -58,9 +68,20 @@ El tipo materia posee un nombre, un directorio de origen, uno de llegada y una l
 >instance Show Materia where
 >  show m = nombre m
 
+instance Read Materia where
+  read texto = Materia cSalida cEntrada evs
+    where
+      palabras = words texto
+      cSalida = palabras!!1
+      cEntrada = palabras!!2
+    
+
+
 >mostrarMateria :: Materia -> [Char]
 >mostrarMateria m  = "\nNombre:" ++ nombre m ++ "\n" ++ "Archivos: " ++ directorioArchivos m ++ "\n" ++ "Entrega: " ++ directorioEntrega m ++ "\n" ++ "Fechas: " ++ show(fechas m)
  
+-------------- Tipos de Ejemplo
+
 >s = Fecha 14 5
 >análisis = Materia "Análisis" "Análisis/" "Análisis/" [(Fecha 1 3,"TP1"),(Fecha 2 4,"TP2")]
 >globología = Materia "Globología" "Globología/" "Globología/" [(Fecha 14 4,"TP1"),(Fecha 2 4,"TP2")]
@@ -68,7 +89,7 @@ El tipo materia posee un nombre, un directorio de origen, uno de llegada y una l
 
 >materias = [análisis,globología]
 
-
+--------------- Función Rinden
 
 La función "rinden" recibe una fecha como argumento y la lista de todas las materias. Devuelve las materias que van a recibir cosas, en pares con las cosas a dar.
 
