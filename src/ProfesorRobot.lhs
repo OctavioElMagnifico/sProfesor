@@ -1,6 +1,7 @@
 >module ProfesorRobot where
 
 >import Data.Maybe(fromJust)
+>import Data.List
 
 import Data.Time.Calendar
 
@@ -13,9 +14,6 @@ Una vez que dispone de esta información, escribe un guión de Bash que indica q
 
 Está pensado para que Crond lo llame todos los días.
 
-
-
-
 El tipo Fecha no aclara el año. La naturaleza cuatrimestral del proceso lo hace innecesario. No sería mala idea añadir una instancia donde esto se controle. 
 
 Necesito derivar varias instancias a clases de tipos para poder realizar operaciones necesarias más tarde. Por ejemplo, no puedo constatar si una fecha está en una lista sin disponer de la instancia de Eq de la clase Fecha. 
@@ -23,7 +21,7 @@ Necesito derivar varias instancias a clases de tipos para poder realizar operaci
 -----------------   Declaración de Tipos y sus Funciones Asociadas
 
 >data Fecha = Fecha Int Int
->    deriving (Eq,Ord,Read)
+>    deriving (Eq,Ord,Show,Read)
 
 >día :: Fecha -> Int
 >día (Fecha a b) = a
@@ -31,27 +29,23 @@ Necesito derivar varias instancias a clases de tipos para poder realizar operaci
 >mes :: Fecha -> Int
 >mes (Fecha a b) = b
 
->showF f = Prelude.show(día f) ++ "/" ++ Prelude.show(mes f)
+----
+showF f = Prelude.show(día f) ++ "/" ++ Prelude.show(mes f)
 
->instance Show Fecha where
-> show  = showF 
+instance Show Fecha where
+ show  = showF 
+----
 
 Los eventos van a incluir el archivo que se debe mover en la fecha dada. 
 
 >type Evento = (Fecha , [Char])
 
->instance Read Evento where
->  read :: String -> Evento
->  read evento = (fecha, suceso)
->    where
->      (día,mes) = words . takeWhile (/= ',') . tail  . dropWhile (/= ' ') $ evento
->      fecha     = Fecha día mes
->      suceso    = takeWhile (/= ')') . tail . dropWhile (/= ',') $ evento
 
 El tipo materia posee un nombre, un directorio de origen, uno de llegada y una lista de fechas.
 1 - Sería interesante ordenar los directorios de tal forma que sólo agrege cierto trozo a una ruta predecible para definir cada materia.
 
 >data Materia = Materia [Char] [Char] [Char] [Evento] 
+>  deriving (Show)
 
 >nombre :: Materia -> [Char]
 >nombre (Materia n dA dE f) = n
@@ -65,22 +59,27 @@ El tipo materia posee un nombre, un directorio de origen, uno de llegada y una l
 >fechas :: Materia -> [Evento]
 >fechas (Materia n dA dE f) = f
 
->instance Show Materia where
->  show m = nombre m
+>leerMateria :: String -> [(Materia,String)]
+>leerMateria entrada = [ (salida, resto ) ]
+>  where
+>    (nombres,listaConResiduos) = span (/= '[') entrada
+>    (listaAbierta,restoSucio)  = span (/= ']') listaConResiduos
+>    (lista,resto)              = (listaAbierta ++ "]", tail restoSucio)
+>    sustantivos                = words . fromJust . stripPrefix "Materia" $ nombres
+>    nombre                     = read $ sustantivos!!0 :: String
+>    cSalida                    = read $ sustantivos!!1 :: String
+>    cEntrada                   = read $ sustantivos!!2 :: String
+>    evs                        = read $ lista :: [Evento]
+>    salida                     = Materia nombre cSalida cEntrada evs
 
-instance Read Materia where
-  read texto = Materia cSalida cEntrada evs
-    where
-      palabras = words texto
-      cSalida = palabras!!1
-      cEntrada = palabras!!2
-    
 
+>instance Read Materia where
+>readsPrec = leerMateria
 
 >mostrarMateria :: Materia -> [Char]
 >mostrarMateria m  = "\nNombre:" ++ nombre m ++ "\n" ++ "Archivos: " ++ directorioArchivos m ++ "\n" ++ "Entrega: " ++ directorioEntrega m ++ "\n" ++ "Fechas: " ++ show(fechas m)
  
--------------- Tipos de Ejemplo
+-------------- Variables de Ejemplo
 
 >s = Fecha 14 5
 >análisis = Materia "Análisis" "Análisis/" "Análisis/" [(Fecha 1 3,"TP1"),(Fecha 2 4,"TP2")]
@@ -131,6 +130,15 @@ La fecha la entrega BASH en un archivo de texto. Hay que darle la forma necesari
 >  where 
 >        mm = (read . take 2 . drop 5) ls :: Int 
 >        dd = (read . drop 8) ls :: Int
+
+>prueba = do
+>  let 
+>   u = show análisis
+>   a = words . fromJust . stripPrefix "Materia"$ u
+>   b = drop 3 a
+>   c = concat b
+>   d = read c :: (Fecha,String)
+>  putStrLn(show b)
 
 --- Parte 2: Lectura de la tabla y elaboración de las entradas de este programa.
 
