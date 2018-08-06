@@ -4,5 +4,5 @@ import ProfesorRobot
 
 main = do {
        entrada  <- readFile "fecha.txt";
-       putStrLn(darOrden ( aRclone (isoAFecha entrada) materias))
+       putStrLn( darOrden ( aRclone (isoAFecha entrada) materias) )
     }

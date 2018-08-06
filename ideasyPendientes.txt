@@ -1,0 +1,9 @@
+Para que sea más seguro :
+-- Agregar un guión que busque repetición de materias.
+-- Agregar un guión que constate la disponibilidad de archivos. Este se puede empezar a llamar una semana antes. 
+-- Debería mandar un correo avisando qué carpeta va a abrir y qué archivo va a mandar, cada vez. 
+
+Funcionalidades Adicionales:
+-- Elaborar el cronograna. Primero sencillo, después en LaTeX con el formato del a UNTreF.
+-- Enviar resueltos cuando vencen los plazos asociados. 
+-- Monitorear la carpeta de la solicitud de dropbox y confirmar los envíos.

@@ -1,6 +1,6 @@
 >module ProfesorRobot where
 
->import Data.Maybe(fromJust)
+>import Data.Maybe(fromJust,isJust,isNothing)
 >import Data.List
 
 import Data.Time.Calendar
@@ -44,51 +44,23 @@ Los eventos van a incluir el archivo que se debe mover en la fecha dada.
 El tipo materia posee un nombre, un directorio de origen, uno de llegada y una lista de fechas.
 1 - Sería interesante ordenar los directorios de tal forma que sólo agrege cierto trozo a una ruta predecible para definir cada materia.
 
->data Materia = Materia [Char] [Char] [Char] [Evento] 
->  deriving (Show)
+>data Materia = Materia [Char] [Char] [Evento] 
+>  deriving (Show,Read)
 
 >nombre :: Materia -> [Char]
->nombre (Materia n dA dE f) = n
+>nombre (Materia n dirs f) = n
 
->directorioArchivos :: Materia -> [Char]
->directorioArchivos  (Materia n dA dE f) = dA
-
->directorioEntrega :: Materia -> [Char]
->directorioEntrega (Materia n dA dE f) = dE
+>directorios :: Materia -> [Char]
+>directorios  (Materia n dirs f) = dirs
 
 >fechas :: Materia -> [Evento]
->fechas (Materia n dA dE f) = f
-
->leerMateria :: String -> [(Materia,String)]
->leerMateria entrada = [ (salida, resto ) ]
->  where
->    (nombres,listaConResiduos) = span (/= '[') entrada
->    (listaAbierta,restoSucio)  = span (/= ']') listaConResiduos
->    (lista,resto)              = (listaAbierta ++ "]", tail restoSucio)
->    sustantivos                = words . fromJust . stripPrefix "Materia" $ nombres
->    nombre                     = read $ sustantivos!!0 :: String
->    cSalida                    = read $ sustantivos!!1 :: String
->    cEntrada                   = read $ sustantivos!!2 :: String
->    evs                        = read $ lista :: [Evento]
->    salida                     = Materia nombre cSalida cEntrada evs
-
-
->instance Read Materia where
->readsPrec = leerMateria
+>fechas (Materia n dirs f) = f
 
 >mostrarMateria :: Materia -> [Char]
->mostrarMateria m  = "\nNombre:" ++ nombre m ++ "\n" ++ "Archivos: " ++ directorioArchivos m ++ "\n" ++ "Entrega: " ++ directorioEntrega m ++ "\n" ++ "Fechas: " ++ show(fechas m)
+>mostrarMateria m  = "\nNombre: " ++ nombre m ++ "\n" ++ "Nombre de las Carpetas: " ++ directorios m ++ "\n" ++ "Fechas: " ++ show(fechas m)
  
--------------- Variables de Ejemplo
 
->s = Fecha 14 5
->análisis = Materia "Análisis" "Análisis/" "Análisis/" [(Fecha 1 3,"TP1"),(Fecha 2 4,"TP2")]
->globología = Materia "Globología" "Globología/" "Globología/" [(Fecha 14 4,"TP1"),(Fecha 2 4,"TP2")]
->t = Fecha 2 4
-
->materias = [análisis,globología]
-
---------------- Función Rinden
+--------------- Función Rinden 
 
 La función "rinden" recibe una fecha como argumento y la lista de todas las materias. Devuelve las materias que van a recibir cosas, en pares con las cosas a dar.
 
@@ -96,69 +68,40 @@ La función "rinden" recibe una fecha como argumento y la lista de todas las mat
 
 
 >rinden :: Fecha -> [Materia] -> [MatEv]
->rinden f ms =  ((map s) . (filter p))  ( zip ms es)
+>rinden f ms =  ((map s) . (filter p))  (zip ms es)
 >  where es = map (lookup f . fechas) ms
 >        p (a,b)  = b /= Nothing 
 >        s (a,b)  = (a,fromJust b)
 
+------------ Función aRclone
 Esta función va a tomar una lista de pares materias que sabemos que tienen que rendir con sus respectivos eventos, va a mirar qué les toca rendir y va a armar el comando de rclone que lleva el archivo desde donde lo tenemos guardado hasta la carpeta donde los alumnos lo pueden ver.  
 
->aRclone :: Fecha -> [Materia]-> [[Char]]
->aRclone f ms= map (comandoRclone f) mes
->   where mes = rinden f ms
+>aRclone :: Fecha -> [Materia] -> [[Char]]
+>aRclone f ms = map (comandoRclone f) hoyRinden
+>   where hoyRinden = rinden f ms
 
 >comandoRclone :: Fecha -> MatEv -> [Char]
->comandoRclone f (m,archivo) = copiar ++ salida  ++ directorioArchivos m ++ archivo++ ".pdf"  ++ " " ++ llegada ++ directorioEntrega m   
+>comandoRclone f (m,archivo) = copiar ++ depósito  ++ directorios m ++ "/" ++ archivo ++ ".pdf"  ++ " " ++ público ++ "/" ++ directorios m   
 
 >copiar = "rclone copy "
->salida = "~/ProfesorRobot/Pruebas/Salida/"
->llegada = "instituto:Octavio/ProfesorRobot/Pruebas/Entrada/"
+>depósito = "~/ProfesorRobot/Pruebas/Salida/"
+>público = "instituto:Octavio/ProfesorRobot/Pruebas/Entrada/"
 
 Esta es una función de E/S utilitaria que permite separar las diferentes ordenes generadas. Seguro ya estaba incorporada, pero no encontré el nombre. 
 
-
 >darOrden :: [[Char]] -> [Char]
->darOrden [] = []
->darOrden [c] = c 
->darOrden (c:cs) = c ++ "&&" ++ darOrden(cs)
-
+>darOrden []     = []
+>darOrden [c]    = c
+>darOrden (c:cs) = c ++ " && " ++ darOrden(cs)
 
 La fecha la entrega BASH en un archivo de texto. Hay que darle la forma necesaria. 
 
 >isoAFecha :: [Char] -> Fecha
->isoAFecha ls = Fecha dd mm
+>isoAFecha ls = Fecha mes día
 >  where 
->        mm = (read . take 2 . drop 5) ls :: Int 
->        dd = (read . drop 8) ls :: Int
+>        mes = (read . take 2 . drop 5) ls :: Int 
+>        día = (read . drop 8) ls :: Int
 
->prueba = do
->  let 
->   u = show análisis
->   a = words . fromJust . stripPrefix "Materia"$ u
->   b = drop 3 a
->   c = concat b
->   d = read c :: (Fecha,String)
->  putStrLn(show b)
+--- Comando para Compartir Carpetas
 
---- Parte 2: Lectura de la tabla y elaboración de las entradas de este programa.
-
-el formato de la tabla es importante una opción es:
-* No sería difícil pedirle a Bash que cree los directorios de Archivos y Entrega. Así nos ahorramos un problema más. 
-
-Nombre de la Materia: Parafernalia 
-Directorio de Archivos:  
-Directorio de Entrega a los Alumnos: 
-
-Fechas         Eventos   EsTP
-1/1      |     Semana de Presentación | No
-1/2      |     TP1  |     Sí
-2/4      |     TP2    |   Sí
-3/4      |     Unidad2 |  No
-6/6      |     Recuperatorios | Sí
-
-El programa tiene que leer esta tabla y generar el tipo adecuado.
-
-Esto evidentemente no lo sé hacer. Quizás conviene usar funciones incorporadas de R. 
-
-La base sería ingresar el documento, tomar cada línea como una lista con separador ":" o | y después filtrar lo que no necesito. Al final tendría un cierto orden y podría llevar los elementos según su posición a los atributos de la variable de tipo "materia".
-
+https://rclone.org/commands/rclone_link/

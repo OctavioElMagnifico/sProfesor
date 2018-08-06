@@ -14,12 +14,12 @@ bug-reports:    https://github.com/OctavioElMagnifico/sProfesor/issues
 author:         Octavio M. Duarte
 maintainer:     duarteoctaviomartin@gmail.com
 copyright:      2018 Octavio M. Duarte
-license:        GPLv3
+license:        GPL-3
 license-file:   LICENCIA.txt
 build-type:     Simple
 extra-source-files:
     ChangeLog.md
-    README.md
+    LEEME.md
 
 source-repository head
   type: git
@@ -27,7 +27,7 @@ source-repository head
 
 library
   exposed-modules:
-      Lib
+      ProfesorRobot CargarDatos
   other-modules:
       Paths_sProfesor
   hs-source-dirs:
@@ -36,10 +36,11 @@ library
       base >=4.7 && <5
   default-language: Haskell2010
 
-executable sProfesor-exe
-  main-is: Main.hs
+executable LeerTabla.hs
+  main-is: LeerTabla.hs   
   other-modules:
-      Paths_sProfesor ProfesorRobot
+      Paths_sProfesor 
+
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
