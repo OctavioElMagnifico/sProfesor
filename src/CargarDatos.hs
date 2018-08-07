@@ -46,11 +46,10 @@ leerEventos (l:ls)
                   | otherwise = p l : (leerEventos ls)
   where
        última = map toUpper . last . words
-       p l = if ( última l == "SÍ" || última l == "SI")  then (leerTP l) else (Fecha 0 0, "Nada")
+       p l = if ( última l == "SÍ" || última l == "SI")  then (leerTP True l) else (leerTP False l) 
 
-
-leerTP :: [Char] -> Evento
-leerTP línea  =  (fecha, archivo) 
+leerTP :: Bool -> [Char] -> Evento
+leerTP tp línea =  ((fecha, archivo),tp) 
   where
        palabras = words línea
        día = read ( takeWhile (/= '-') $ palabras!!0 ) :: Int
@@ -61,13 +60,13 @@ leerTP línea  =  (fecha, archivo)
 recuperarMaterias :: String -> [Materia]
 recuperarMaterias archivo = lista
   where
-    lista = ( map read ) . lines $ archivo
-
-pedirTabla = do 
-   putStrLn "¿Cómo se llama la tabla de la Materia a procesar?"
-   dirección <- getLine
-   entrada <- readFile dirección
-   let materia = leerTabla entrada
-   appendFile "MateriasDelCuatrimestre.untref" $ show materia ++ "\n" 
-   putStrLn "Estos son los datos obtenidos: \n"
-   ( putStrLn . mostrarMateria ) materia
+    lista =  map read . lines $ archivo 
+-- Esto fue copiado a app/LeerTabla.hs
+--pedirTabla = do 
+--   putStrLn "¿Cómo se llama la tabla de la Materia a procesar?"
+--   dirección <- getLine
+--   entrada <- readFile dirección
+--   let materia = leerTabla entrada
+--   appendFile "MateriasDelCuatrimestre.untref" $ show materia ++ "\n" 
+--   putStrLn "Estos son los datos obtenidos: \n"
+--  ( putStrLn . mostrarMateria ) materia

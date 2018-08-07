@@ -16,7 +16,7 @@ Pendientes:
 
 Funcionamiento de Profesor Robot:
 
-1) El script de BASH LlamarProfesor inicia el programa y le da como entrada la fecha escribiendo el archivo "fecha.txt".
+1) El script de BASH LlamarProfesor inicia el programa y le da como entrada la fecha del día de ayer (dado que enviamos los TP el día anterior para tener margen de error) escribiéndola en el archivo "fecha.txt".
 2) i- El programa lee el archivo "MateriasDelCuatrimestre.untref" donde previamente se cargó todas las materias existentes usando la aplicación "cargarDatos".   
    ii- El programa determina qué materias tienen eventos este día.
    iii- Para cada evento, construye el comando de rclone que copia su archivo asociado desde la carpeta de almacenamiento hasta la que es accesible para los alumnos. 
@@ -48,8 +48,8 @@ c) Investigar la incorporación de anacrond.
 Procedimiento de Uso:
 
 1) Activar la tarea diaria en Crond.
-2) Crear la carpeta del cuatrimestre y copiar en su interior los ejecutables cargarDatos, tomaExamenes y generarEntorno.
+2) Crear la carpeta del cuatrimestre y copiar en su interior los ejecutables cargarDatos, tomaExamenes, LlamarProfesor.sh y generarEntorno(todavía no existe).
 3) Escribir las tablas de materias. 
-4) cargarDatos .
+4) cargarDatos .   O crear las carpetas involucradas, dado que por ahora no existe.
 5) generarEntorno .
 6) Cargar los Archivos a entregar en la carpeta "VisibleAlumnos" que el entorno generó.

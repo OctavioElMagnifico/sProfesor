@@ -7,4 +7,3 @@ main = do
   cuatrimestre <- readFile "MateriasDelCuatrimestre.untref"
   let materias = recuperarMaterias cuatrimestre
   putStrLn( darOrden ( aRclone (isoAFecha fechaISO) materias) )
-

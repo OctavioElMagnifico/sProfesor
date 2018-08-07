@@ -40,10 +40,9 @@ executable LeerTabla
   main-is: LeerTabla.hs   
   other-modules:
       Paths_sProfesor 
-
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall 
   build-depends:
       base >=4.7 && <5
     , sProfesor
@@ -53,10 +52,9 @@ executable TomarParciales
   main-is: TomarParciales.hs   
   other-modules:
       Paths_sProfesor 
-
   hs-source-dirs:
       app
-  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall 
   build-depends:
       base >=4.7 && <5
     , sProfesor

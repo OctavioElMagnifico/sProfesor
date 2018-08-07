@@ -1,7 +1,6 @@
 import ProfesorRobot
 import CargarDatos
 
-
 main = do 
    putStrLn "¿Cómo se llama la tabla de la Materia a procesar?"
    dirección <- getLine
