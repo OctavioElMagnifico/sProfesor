@@ -88,19 +88,22 @@ La función "rinden" recibe una fecha como argumento y la lista de todas las mat
 
 ------------ Función aRclone
 
-Esta función va a tomar una lista de pares materias que sabemos que tienen que rendir con sus respectivos eventos, va a mirar qué les toca rendir y va a armar el comando de rclone que lleva el archivo desde donde lo tenemos guardado hasta la carpeta donde los alumnos lo pueden ver.  
+Esta función va a tomar una lista de pares materias que sabemos que tienen que rendir con sus respectivos eventos, va a mirar qué les toca rendir y va a armar el comando de rclone que lleva el archivo desde donde lo tenemos guardado hasta la carpeta donde los alumnos lo pueden ver.   
 
 >aRclone :: Fecha -> [Materia] -> [[Char]]
 >aRclone f ms = map (comandoRclone f) hoyRinden
 >   where hoyRinden = rinden f ms
 
 >comandoRclone :: Fecha -> Actividad -> [Char]
->comandoRclone f (m,archivo) = copiar ++ (dirDepósito m) ++ archivo ++ ".pdf"  ++ " " ++ (dirPúblico m)   
+>comandoRclone f (m,archivo) = copiar ++ (dirDepósito m) ++ subsanarTexto archivo ++ ".pdf"  ++ " " ++ (dirPúblico m)   
+
+
 
 >copiar = "rclone copy "
 >raiz = "instituto:UNTREF/" 
 >período = "Cuatrimestre2-2018/"
 
+-------- Función darOrden
 
 Esta es una función de E/S utilitaria que permite separar las diferentes ordenes generadas. Seguro ya estaba incorporada, pero no encontré el nombre. 
 
@@ -108,6 +111,19 @@ Esta es una función de E/S utilitaria que permite separar las diferentes ordene
 >darOrden []     = []
 >darOrden [c]    = c
 >darOrden (c:cs) = c ++ " && " ++ darOrden(cs)
+
+-------- Función subsanarTexto
+
+La etapa de la generación de la orden es sensible dado que los comandos BASH necesitan que se aplique escapado a varios signos. Por eso es importante controlar con cuidado las partes de la salida a BASH donde aparece texto ingresado por el usuario. 
+
+El nombre de la carpeta y el del archivo son los primeros puntos donde aparecieron problemas. 
+
+>subsanarTexto :: String -> String
+>subsanarTexto ss 
+>                | null ps = preEspacio
+>                | otherwise = preEspacio ++ "\\ " ++ subsanarTexto (tail ps)
+>  where (preEspacio,ps) = span (/= ' ') ss
+
 
 La fecha la entrega BASH en un archivo de texto. Hay que darle la forma necesaria. 
 
