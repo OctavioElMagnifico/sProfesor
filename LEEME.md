@@ -28,14 +28,20 @@ Funcionamiento de cargarDatos:
 1) La materia se describe en una tabla de texto simple con el sigiuente formato: 
 Es FUNDAMENTAL que el nombre del evento sea el del archivo. 
 
+------------- Formato de Tabla
+
 Materia   
-Nombre Oficial: Parafernalia   
+Nombre Oficial: Parafernalia: Aproximación al Estado de la Globología en Yugoeslavia de los '80 desde la Perspectiva de la Cimática   
 Nombre Para Carpetas: Para2018
  Fechas Evento EsTP
  01-02 Tema 1 No
  02-03 Tema 2 No 
  04-05 TP 1 Sí
  05-05 Tema 3 No
+
+* Es importante notar que en los campos que son archivos "Evento" para la tabla y "Nombre Para Carpetas" se debe tener la mayor brevedad posible. 
+* El programa va a buscar en la carpeta "Parciales" del directorio Cuatrimestreaaaa-X/NombreParaCarpetas un archivo llamado exactamente como el evento que figura en la tabla. El formato de nombre recomendado para los tp es del tipo "TP1.pdf" o "TP-1.pdf" sin espacios ni signos raros. 
+
 
 2) El programa solicita el nombre de la materia a leer, lo lee y lo añade en una línea nueva al archivo MateriasDelCuatrimestre.untref .
 

@@ -1,3 +1,6 @@
+Para que se adapte bien al año:
+Sacar "raíz" y "período" de ProfesorRobot. GenerarEntorno las tiene que pedir interactivamente y diseñar todo en base a ellas. 
+
 Para que sea más seguro :
 -- Agregar un guión que busque repetición de materias.
 -- Agregar un guión que constate la disponibilidad de archivos. Este se puede empezar a llamar una semana antes. 

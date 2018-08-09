@@ -35,9 +35,12 @@ leerTabla tablaCSV = Materia nombreMateria nombreCarpeta eventos
   where 
        renglones     = lines tablaCSV
        nombreMateria = dropWhile (==' ') . fromJust . stripPrefix ("Nombre Oficial:") $ ( renglones!!1 )
-       nombreCarpeta = dropWhile (==' ') . fromJust . stripPrefix ("Nombre Para Carpetas:") $ ( renglones!!2 )
+       nombreCarpeta = mejorarNombreCarpeta . dropWhile (==' ') . fromJust . stripPrefix ("Nombre Para Carpetas:") $ ( renglones!!2 )
        eventos       = leerEventos (drop 4 renglones)
 
+mejorarNombreCarpeta :: String -> String
+mejorarNombreCarpeta = map p
+  where p x = if x == ' ' then '-' else x
 
 leerEventos :: [[Char]] -> [Evento]
 leerEventos (l:ls) 
@@ -61,6 +64,7 @@ recuperarMaterias :: String -> [Materia]
 recuperarMaterias archivo = lista
   where
     lista =  map read . lines $ archivo 
+
 -- Esto fue copiado a app/LeerTabla.hs
 --pedirTabla = do 
 --   putStrLn "¿Cómo se llama la tabla de la Materia a procesar?"
