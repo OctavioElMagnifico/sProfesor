@@ -1,11 +1,11 @@
-Este programa tiene por objeto automatizar algunas tareas asociadas con la docencia virtual empleando crond, rclone y BASH. 
-OBJETIVOS INICIALES:
+# Este programa tiene por objeto automatizar algunas tareas asociadas con la docencia virtual empleando crond, rclone y BASH. 
+## OBJETIVOS INICIALES:
 
 1) Leer un formato sencillo de entrada para obtener información sobre una materia: Nombre, directorios asociados, fechas de actividades y archivos asociados. 
 2) Entregar automatizadamente los archivos, esto es importante para las instancias de evaluación que no deben ser conocidas desde antes. 
 3) Generar cronogramas. 
 
-Pendientes:
+### Pendientes:
 
 4) Asistir en la distribución del tiempo a lo largo del temario. 
    Probablemente para esto se necesita un tipo nuevo, algo como "esqueleto de materia".
@@ -14,7 +14,7 @@ Pendientes:
 6) Enviar resueltos cuando vencen los plazos. 
 
 
-Funcionamiento de Profesor Robot:
+# Funcionamiento de Profesor Robot:
 
 1) El script de BASH LlamarProfesor inicia el programa y le da como entrada la fecha del día de ayer (dado que enviamos los TP el día anterior para tener margen de error) escribiéndola en el archivo "fecha.txt".
 2) i- El programa lee el archivo "MateriasDelCuatrimestre.untref" donde previamente se cargó todas las materias existentes usando la aplicación "cargarDatos".   
@@ -23,12 +23,12 @@ Funcionamiento de Profesor Robot:
    iv - Los comandos se escriben a un archivo.
    v- BASH lee el archivo de salida y ejecuta las ordenes. 
 
-Funcionamiento de cargarDatos:
+# Funcionamiento de cargarDatos:
 
 1) La materia se describe en una tabla de texto simple con el sigiuente formato: 
 Es FUNDAMENTAL que el nombre del evento sea el del archivo. 
 
-------------- Formato de Tabla
+# Formato de Tabla
 
 Materia   
 Nombre Oficial: Parafernalia: Aproximación al Estado de la Globología en Yugoeslavia de los '80 desde la Perspectiva de la Cimática   
@@ -45,13 +45,13 @@ Nombre Para Carpetas: Para2018
 
 2) El programa solicita el nombre de la materia a leer, lo lee y lo añade en una línea nueva al archivo MateriasDelCuatrimestre.untref .
 
-FALTANTES:
+# FALTANTES:
 
 a) Guión que controla la no repetición de materias Parece buena idea agregar esto a la función que adquiere el listado también.
 b) Mejorar el tipo Evento para que tenga un componente Booleano. Este indica su condición de TP y permite bifurcar la reacción ante TP o evento usual.
 c) Investigar la incorporación de anacrond.
 
-Procedimiento de Uso:
+# Procedimiento de Uso:
 
 1) Activar la tarea diaria en Crond.
 2) Crear la carpeta del cuatrimestre y copiar en su interior los ejecutables cargarDatos, tomaExamenes, LlamarProfesor.sh y generarEntorno(todavía no existe).
