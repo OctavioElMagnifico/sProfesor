@@ -13,7 +13,7 @@ El objetivo de este módulo es tener un programa que dada la lista de materias g
 >obtenerDirectorios :: [Materia] -> [String] 
 >obtenerDirectorios ms = map dirBase ++ map dirDepósito ms ++ map dirPúblico ms
 
------ Cosas para revisar: las variables raiz y período, de alguna forma deberían generarse acá. 
+# Cosas para revisar: las variables raiz y período, de alguna forma deberían generarse acá. 
 
 raiz = "instituto:UNTREF/" 
 período = "Cuatrimestre2-2018/"

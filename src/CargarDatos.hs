@@ -1,7 +1,7 @@
 module CargarDatos where
 
 import ProfesorRobot
-import Data.Char(toUpper,toLower)
+import Data.Char(toUpper)
 import Data.List(stripPrefix)
 import Data.Maybe(fromJust)
 
@@ -66,11 +66,11 @@ recuperarMaterias archivo = lista
     lista =  map read . lines $ archivo 
 
 -- Esto fue copiado a app/LeerTabla.hs
---pedirTabla = do 
+--pedirTabla = do
 --   putStrLn "¿Cómo se llama la tabla de la Materia a procesar?"
 --   dirección <- getLine
 --   entrada <- readFile dirección
 --   let materia = leerTabla entrada
---   appendFile "MateriasDelCuatrimestre.untref" $ show materia ++ "\n" 
+--   appendFile "MateriasDelCuatrimestre.untref" $ show materia ++ "\n"
 --   putStrLn "Estos son los datos obtenidos: \n"
 --  ( putStrLn . mostrarMateria ) materia

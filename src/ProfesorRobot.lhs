@@ -45,7 +45,7 @@ Los eventos van a incluir el archivo que se debe mover en la fecha dada.
 >esTP :: Evento -> Bool
 >esTP (par,tp) = tp
 
->fechayArchivo :: Evento -> (Fecha,[Char]) 
+>fechayArchivo :: Evento -> (Fecha,[Char])
 >fechayArchivo (par,tp) = par
 
 El tipo materia posee un nombre, un directorio de origen, uno de llegada y una lista de fechas.
