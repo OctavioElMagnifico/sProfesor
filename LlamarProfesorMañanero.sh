@@ -1,6 +1,6 @@
 #!/bin/bash
 cd $CUATRIMESTRE
-date -I --date="tomorrow" > fecha.txt
+date -I > fecha.txt
 TR=$(TomarParciales)
 eval $TR
 cd ~
