@@ -8,30 +8,30 @@ import Data.Maybe(fromJust)
 ---Este programa lee una tabla de texto plano con formato fijo y organiza la información en los tipos que el robot lee (el tipo "materia"). El separador de palabras no es ningún signo. El de campos es el espacio.
 
 
---- Una mejora próxima es que de alguna forma procese los datos de los sucesos que no son TPs y los guarde para hacer la tabla. Conviene mejorar el tipo "Evento" para que tenga título y archivo. Para el archivo puedo usar Maybe y enviar un archivo sólo cuando hay just nombreDeArchivo
+--- HECHO: Ahora incluye un booleano para aclarar. Una mejora próxima es que de alguna forma procese los datos de los sucesos que no son TPs y los guarde para hacer la tabla. Conviene mejorar el tipo "Evento" para que tenga título y archivo. Para el archivo puedo usar Maybe y enviar un archivo sólo cuando hay just nombreDeArchivo
 
---- Una mejora posterior es rehacer el tipo "Materia" para que incluya una lista de aulas. 
+--- Una mejora posterior es rehacer el tipo "Materia" para que incluya una lista de aulas. Probablemente va a convenir que haya un tipo Aula y que uno de los campos del mismo sea la materia.
 
---- Otra mejora deseable es que sea el programa el que reparte el tiempo, contando la cantidad de semanas. 
+--- Otra mejora deseable es que sea el programa el que reparte el tiempo, contando la cantidad de semanas.
 
 
 ---               FALTANTES
---- Agregar las variables nulas como la salida que da pl para no tps a la librería. 
---- leerTabla depura los eventos nulos. 
+--- leerTabla depura los eventos nulos.
+--- Agregar las variables nulas como la salida que da pl para no tps a la librería
 --
 --
 --- Materia.csv :
---Materia   
---Nombre Oficial: Parafernalia   
+--Materia
+--Nombre Oficial: Parafernalia
 --Nombre Para Carpetas: Para2018
 -- Fechas Evento EsTP
 -- 01-02 Tema 1 No
--- 02-03 Tema 2 No 
+-- 02-03 Tema 2 No
 -- 04-05 TP 1 Sí
 -- 05-05 Tema 3 No
 
 leerTabla :: [Char] -> Materia
-leerTabla tablaCSV = Materia nombreMateria nombreCarpeta eventos 
+leerTabla tablaCSV = Materia nombreMateria nombreCarpeta eventos
   where 
        renglones     = lines tablaCSV
        nombreMateria = dropWhile (==' ') . fromJust . stripPrefix ("Nombre Oficial:") $ ( renglones!!1 )
@@ -43,27 +43,27 @@ mejorarNombreCarpeta = map p
   where p x = if x == ' ' then '-' else x
 
 leerEventos :: [[Char]] -> [Evento]
-leerEventos (l:ls) 
+leerEventos (l:ls)
                   | null (l:ls)  = []
                   | length (l:ls) == 1 = [p l]
                   | otherwise = p l : (leerEventos ls)
   where
        última = map toUpper . last . words
-       p l = if ( última l == "SÍ" || última l == "SI")  then (leerTP True l) else (leerTP False l) 
+       p l = if ( última l == "SÍ" || última l == "SI")  then (leerTP True l) else (leerTP False l)
 
 leerTP :: Bool -> [Char] -> Evento
-leerTP tp línea =  ((fecha, archivo),tp) 
+leerTP tp línea =  ((fecha, archivo),tp)
   where
        palabras = words línea
        día = read ( takeWhile (/= '-') $ palabras!!0 ) :: Int
        mes = read ( (tail . dropWhile (/= '-')) $ palabras!!0 ) :: Int
-       fecha = Fecha día mes 
+       fecha = Fecha día mes
        archivo = (unwords . tail. init) palabras
 
 recuperarMaterias :: String -> [Materia]
 recuperarMaterias archivo = lista
   where
-    lista =  map read . lines $ archivo 
+    lista =  map read . lines $ archivo
 
 -- Esto fue copiado a app/LeerTabla.hs
 --pedirTabla = do
