@@ -16,14 +16,14 @@
 
 # Funcionamiento de Profesor Robot:
 
-1) El script de BASH LlamarProfesor inicia el programa y le da como entrada la fecha del día de ayer (dado que enviamos los TP el día anterior para tener margen de error) escribiéndola en el archivo "fecha.txt".
+1) El script de BASH LlamarProfesor inicia el programa y le da como entrada la fecha del día de ayer (dado que enviamos los TP el día anterior para tener margen de error) escribiéndola en el archivo "fecha.txt". LlamarProfesor depende de una variable de entorno, CUATRIMESTRE que lo apunta a la carpeta raíz de las carpetas de las materias, donde residen los archivos que se va a nombrar a continación. 
 2) i- El programa lee el archivo "MateriasDelCuatrimestre.untref" donde previamente se cargó todas las materias existentes usando la aplicación "cargarDatos".   
    ii- El programa determina qué materias tienen eventos este día.
    iii- Para cada evento, construye el comando de rclone que copia su archivo asociado desde la carpeta de almacenamiento hasta la que es accesible para los alumnos. 
    iv - Los comandos se escriben a un archivo.
    v- BASH lee el archivo de salida y ejecuta las ordenes. 
 
-# Funcionamiento de cargarDatos:
+# Funcionamiento de LeerTabla:
 
 1) La materia se describe en una tabla de texto simple con el sigiuente formato: 
 Es FUNDAMENTAL que el nombre del evento sea el del archivo. 
