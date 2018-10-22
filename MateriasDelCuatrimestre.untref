@@ -1,1 +1,2 @@
-Materia "Elementos de Matem\225tica y Estad\237stica" "elementos" [(Fecha 6 9,"Prueba"),(Fecha 7 9,"TP1"),(Fecha 21 9,"TP2"),(Fecha 5 10,"TP3"),(Fecha 2 11,"TP4"),(Fecha 5 11,"Recuperatorios")]
+Materia "Inclinaci\243n   " "Para2018" [((Fecha 1 2,"Tema 1"),False),((Fecha 2 3,"Tema 2"),False),((Fecha 4 5,"TP 1"),True),((Fecha 5 5,"Tema 3"),False)]
+Materia "Tramb\243lico   " "Para2018" [((Fecha 1 2,"Tema 1"),False),((Fecha 2 3,"Tema 2"),False),((Fecha 4 5,"TP 1"),True),((Fecha 5 5,"Tema 3"),False)]
