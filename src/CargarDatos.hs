@@ -4,6 +4,7 @@ import ProfesorRobot
 import Data.Char(toUpper)
 import Data.List(stripPrefix)
 import Data.Maybe(fromJust)
+import System.Environment
 
 ---Este programa lee una tabla de texto plano con formato fijo y organiza la información en los tipos que el robot lee (el tipo "materia"). El separador de palabras no es ningún signo. El de campos es el espacio.
 
@@ -32,7 +33,7 @@ import Data.Maybe(fromJust)
 
 leerTabla :: [Char] -> Materia
 leerTabla tablaCSV = Materia nombreMateria nombreCarpeta eventos
-  where 
+  where
        renglones     = lines tablaCSV
        nombreMateria = dropWhile (==' ') . fromJust . stripPrefix ("Nombre Oficial:") $ ( renglones!!1 )
        nombreCarpeta = mejorarNombreCarpeta . dropWhile (==' ') . fromJust . stripPrefix ("Nombre Para Carpetas:") $ ( renglones!!2 )
@@ -64,6 +65,15 @@ recuperarMaterias :: String -> [Materia]
 recuperarMaterias archivo = lista
   where
     lista =  map read . lines $ archivo
+
+
+--- Esta función necesita algo como getArgs para funcionar con un nombre de archivo.
+
+ingresarMateria :: IO ()
+ingresarMateria = do { getArgs >>=
+                      putStrLn . concat }
+  
+---                   appendFile "MateriasDelCuatrimestre.untref" 
 
 -- Esto fue copiado a app/LeerTabla.hs
 --pedirTabla = do

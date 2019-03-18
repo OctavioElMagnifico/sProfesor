@@ -1,7 +1,7 @@
 >module ProfesorRobot where
 
 >import Data.Maybe(fromJust,isJust,isNothing)
->import Data.List
+
 
 import Data.Time.Calendar
 
@@ -73,7 +73,7 @@ El tipo materia posee un nombre, un directorio de origen, uno de llegada y una l
 >dirPúblico :: Materia -> String
 >dirPúblico m = raiz ++ período ++ directorios m ++ "/VisibleAlumnos/"
 
---------------- Función Rinden 
+--------------- Función Rinden
 
 La función "rinden" recibe una fecha como argumento y la lista de todas las materias. Devuelve las materias que van a recibir cosas, en pares con las cosas a dar.
 
@@ -82,30 +82,30 @@ La función "rinden" recibe una fecha como argumento y la lista de todas las mat
 >rinden :: Fecha -> [Materia] -> [Actividad]
 >rinden f ms =   map q . filter p $ zip ms es
 >  where es = map (lookup f) tps
->        tps = map (map fechayArchivo . filter esTP . eventos) ms 
->        p (a,b)  = b /= Nothing  
+>        tps = map (map fechayArchivo . filter esTP . eventos) ms
+>        p (a,b)  = b /= Nothing
 >        q (a,b)  = (a,fromJust b)
 
 ------------ Función aRclone
 
-Esta función va a tomar una lista de pares materias que sabemos que tienen que rendir con sus respectivos eventos, va a mirar qué les toca rendir y va a armar el comando de rclone que lleva el archivo desde donde lo tenemos guardado hasta la carpeta donde los alumnos lo pueden ver.   
+Esta función va a tomar una lista de pares materias que sabemos que tienen que rendir con sus respectivos eventos, va a mirar qué les toca rendir y va a armar el comando de rclone que lleva el archivo desde donde lo tenemos guardado hasta la carpeta donde los alumnos lo pueden ver.
 
 >aRclone :: Fecha -> [Materia] -> [[Char]]
 >aRclone f ms = map (comandoRclone f) hoyRinden
 >   where hoyRinden = rinden f ms
 
 >comandoRclone :: Fecha -> Actividad -> [Char]
->comandoRclone f (m,archivo) = copiar ++ (dirDepósito m) ++ subsanarTexto archivo ++ ".pdf"  ++ " " ++ (dirPúblico m)   
+>comandoRclone f (m,archivo) = copiar ++ (dirDepósito m) ++ subsanarTexto archivo ++ ".pdf"  ++ " " ++ (dirPúblico m)
 
 
 
 >copiar = "rclone copy "
->raiz = "instituto:UNTREF/" 
+>raiz = "instituto:UNTREF/"
 >período = "Cuatrimestre2-2018/"
 
 -------- Función darOrden
 
-Esta es una función de E/S utilitaria que permite separar las diferentes ordenes generadas. Seguro ya estaba incorporada, pero no encontré el nombre. 
+Esta es una función de E/S utilitaria que permite separar las diferentes ordenes generadas. Seguro ya estaba incorporada, pero no encontré el nombre.
 
 >darOrden :: [[Char]] -> [Char]
 >darOrden []     = []
@@ -114,9 +114,11 @@ Esta es una función de E/S utilitaria que permite separar las diferentes ordene
 
 -------- Función subsanarTexto
 
-La etapa de la generación de la orden es sensible dado que los comandos BASH necesitan que se aplique escapado a varios signos. Por eso es importante controlar con cuidado las partes de la salida a BASH donde aparece texto ingresado por el usuario. 
+La etapa de la generación de la orden es sensible dado que los comandos BASH necesitan que se aplique escapado a varios signos. Por eso es importante controlar con cuidado las partes de la salida a BASH donde aparece texto ingresado por el usuario.
 
-El nombre de la carpeta y el del archivo son los primeros puntos donde aparecieron problemas. 
+Más allá de esta precaución, lo mejor es filtrar el uso del caracter ' ' en las entradas.
+
+El nombre de la carpeta y el del archivo son los primeros puntos donde aparecieron problemas.
 
 >subsanarTexto :: String -> String
 >subsanarTexto ss 
@@ -125,12 +127,12 @@ El nombre de la carpeta y el del archivo son los primeros puntos donde aparecier
 >  where (preEspacio,ps) = span (/= ' ') ss
 
 
-La fecha la entrega BASH en un archivo de texto. Hay que darle la forma necesaria. 
+La fecha la entrega BASH en un archivo de texto. Hay que darle la forma necesaria.
 
 >isoAFecha :: [Char] -> Fecha
 >isoAFecha ls = Fecha mes día
->  where 
->        día = (read . take 2 . drop 5) ls :: Int 
+>  where
+>        día = (read . take 2 . drop 5) ls :: Int
 >        mes = (read . drop 8) ls :: Int
 
 --- Comando para Compartir Carpetas

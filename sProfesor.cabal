@@ -7,7 +7,7 @@ cabal-version: >= 1.10
 -- hash: befa2747baea5d3ccd4a2e9d0624da65ced52e2173dfec95fdf1f44f62b14cf1
 
 name:           sProfesor
-version:        0.1.0.0
+version:        0.2.0.0
 description:    Este programa se encarga de administrar la evaluación de parciales para el deparamento de matemática de la rama virtual de la UNTreF.
 homepage:       https://github.com/OctavioElMagnifico/sProfesor#readme
 bug-reports:    https://github.com/OctavioElMagnifico/sProfesor/issues
@@ -27,13 +27,13 @@ source-repository head
 
 library
   exposed-modules:
-      ProfesorRobot CargarDatos
+      ProfesorRobot CargarDatos 
   other-modules:
       Paths_sProfesor
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+                base >=4.7 && <5, directory >= 1.3
   default-language: Haskell2010
 
 executable LeerTabla
@@ -48,6 +48,7 @@ executable LeerTabla
     , sProfesor
   default-language: Haskell2010
 
+ 
 executable TomarParciales
   main-is: TomarParciales.hs   
   other-modules:
