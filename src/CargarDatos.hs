@@ -70,10 +70,8 @@ recuperarMaterias archivo = lista
 --- Esta función necesita algo como getArgs para funcionar con un nombre de archivo.
 
 ingresarMateria :: IO ()
-ingresarMateria = do { getArgs >>=
-                      putStrLn . concat }
-  
----                   appendFile "MateriasDelCuatrimestre.untref" 
+ingresarMateria = do { getArgs >>= \x ->
+                       appendFile "MateriasDelCuatrimestre.untref" $ mostrarMateria (x!!0)}
 
 -- Esto fue copiado a app/LeerTabla.hs
 --pedirTabla = do
