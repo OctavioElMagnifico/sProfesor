@@ -71,9 +71,9 @@ recuperarMaterias archivo = lista
 
 ingresarMateria :: IO ()
 ingresarMateria = do { getArgs >>= \x ->
-                       appendFile "MateriasDelCuatrimestre.untref" $ mostrarMateria  (x!!0)
-                       appendFile "MateriasDelCuatrimestre.untref" "\n" 
-                     }
+                       readFile (x!!0) >>=
+                       appendFile "MateriasDelCuatrimestre.untref" . show . leerTabla;
+                       appendFile "MateriasDelCuatrimestre.untref" "\n"}
 
 -- Esto fue copiado a app/LeerTabla.hs
 --pedirTabla = do
