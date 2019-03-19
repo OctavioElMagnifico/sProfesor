@@ -39,3 +39,4 @@ sonMaterias :: [String] -> [String]
 >         raiz <- getCurrentDirectory
 >         archivos <- getCurrentDirectory >>= getDirectoryContents
 >         let materias = sonMaterias archivos
+>         

@@ -69,11 +69,18 @@ recuperarMaterias archivo = lista
 
 --- Esta función necesita algo como getArgs para funcionar con un nombre de archivo.
 
-ingresarMateria :: IO ()
-ingresarMateria = do { getArgs >>= \x ->
+ingresarMateriaComando :: IO ()
+ingresarMateriaComando = do { getArgs >>= \x ->
                        readFile (x!!0) >>=
                        appendFile "MateriasDelCuatrimestre.untref" . show . leerTabla;
                        appendFile "MateriasDelCuatrimestre.untref" "\n"}
+
+ingresarMateria :: String -> IO Materia
+ingresarMateria nombre = do { let materia = leerTabla . readFile nombre;
+---                       appendFile "MateriasDelCuatrimestre.untref" ( show materia );
+---                       appendFile "MateriasDelCuatrimestre.untref" "\n";
+                       return materia
+                       }
 
 -- Esto fue copiado a app/LeerTabla.hs
 --pedirTabla = do
