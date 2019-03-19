@@ -66,28 +66,13 @@ recuperarMaterias archivo = lista
   where
     lista =  map read . lines $ archivo
 
+---Este ejemplo está porque el GHC de Stack no tolera caracteres UTF8.
 
---- Esta función necesita algo como getArgs para funcionar con un nombre de archivo.
+ej = "sintildes.untref" :: String
 
-ingresarMateriaComando :: IO ()
-ingresarMateriaComando = do { getArgs >>= \x ->
-                       readFile (x!!0) >>=
-                       appendFile "MateriasDelCuatrimestre.untref" . show . leerTabla;
-                       appendFile "MateriasDelCuatrimestre.untref" "\n"}
 
 ingresarMateria :: String -> IO Materia
-ingresarMateria nombre = do { let materia = leerTabla . readFile nombre;
----                       appendFile "MateriasDelCuatrimestre.untref" ( show materia );
----                       appendFile "MateriasDelCuatrimestre.untref" "\n";
-                       return materia
-                       }
-
--- Esto fue copiado a app/LeerTabla.hs
---pedirTabla = do
---   putStrLn "¿Cómo se llama la tabla de la Materia a procesar?"
---   dirección <- getLine
---   entrada <- readFile dirección
---   let materia = leerTabla entrada
---   appendFile "MateriasDelCuatrimestre.untref" $ show materia ++ "\n"
---   putStrLn "Estos son los datos obtenidos: \n"
---  ( putStrLn . mostrarMateria ) materia
+ingresarMateria nombre = do  tablaMateria <- readFile nombre
+                             let materia = leerTabla tablaMateria
+                             appendFile "MateriasDelCuatrimestre.untref" ( show materia ++ "\n" )
+                             return ( materia )

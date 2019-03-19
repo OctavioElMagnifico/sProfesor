@@ -35,11 +35,18 @@ creadDirectorio nombreCarpeta = comandoCrear ++ nombreCarpeta
 
 sonMaterias :: [String] -> [String]
 
+otra VARIABLE para rescatar en un archivo
+
+>sufijos = [ ".untref", ".ulp" ]
+
+>esMateria :: String -> Bool
+>esMateria = (\x -> elem x sufijos ) . snd . break (=='.')
+
 >sonMaterias :: [String] -> [String]
->sonMaterias = map fst . filter ( \x -> elem (snd x) [ ".untref", ".ulp" ] ) . map ( break (=='.') )
+>sonMaterias = filter esMateria
 
 >main = do
->         raiz <- getCurrentDirectory
->         archivos <- getCurrentDirectory >>= getDirectoryContents
->         let materias = sonMaterias archivos
+>         getCurrentDirectory >>= putStrLn
+>         lista <- getCurrentDirectory >>= getDirectoryContents :: IO [String]
+>         let materias = sonMaterias lista
 >         foldr (>>) ( return () ) ( map ingresarMateria materias)
