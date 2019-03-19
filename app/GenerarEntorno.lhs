@@ -1,4 +1,3 @@
->module Entorno where
 >import CargarDatos
 >import System.Environment
 >import System.Directory
@@ -37,7 +36,7 @@ sonMaterias :: [String] -> [String]
 
 otra VARIABLE para rescatar en un archivo
 
->sufijos = [ ".untref", ".ulp" ]
+>sufijos = [ ".untref", ".ulp" ] :: [String]
 
 >esMateria :: String -> Bool
 >esMateria = (\x -> elem x sufijos ) . snd . break (=='.')
@@ -45,8 +44,8 @@ otra VARIABLE para rescatar en un archivo
 >sonMaterias :: [String] -> [String]
 >sonMaterias = filter esMateria
 
+>main :: IO ()
 >main = do
->         getCurrentDirectory >>= putStrLn
 >         lista <- getCurrentDirectory >>= getDirectoryContents :: IO [String]
 >         let materias = sonMaterias lista
 >         foldr (>>) ( return () ) ( map ingresarMateria materias)

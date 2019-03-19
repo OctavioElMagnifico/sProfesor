@@ -31,6 +31,8 @@ import System.Environment
 -- 04-05 TP 1 Sí
 -- 05-05 Tema 3 No
 
+--- Esta es la función que se encarga de transformar la tabla especial en una variable. 
+
 leerTabla :: [Char] -> Materia
 leerTabla tablaCSV = Materia nombreMateria nombreCarpeta eventos
   where

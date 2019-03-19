@@ -40,7 +40,7 @@ Los eventos van a incluir el archivo que se debe mover en la fecha dada.
 
 >type Actividad = (Materia,[Char])
 
->type Evento = ((Fecha,[Char]),Bool) 
+>type Evento = ((Fecha,[Char]),Bool)
 
 >esTP :: Evento -> Bool
 >esTP (par,tp) = tp
@@ -64,8 +64,8 @@ El tipo materia posee un nombre, un directorio de origen, uno de llegada y una l
 >eventos (Materia n dirs e) = e
 
 >mostrarMateria :: Materia -> [Char]
->mostrarMateria m  = "\nNombre: " ++ nombre m ++ "\n" ++ "Nombre de las Carpetas: " ++ directorios m ++ "\n" ++ "Fechas: " ++ show(eventos m)
- 
+>mostrarMateria m  = "\nNombre: " ++ nombre m ++ "\n" ++ "Nombre de las Carpetas: " ++ directorios m ++ "\n" ++ "Fechas: " ++ show ( eventos m )
+
 
 >dirDepósito :: Materia -> String
 >dirDepósito m = raiz ++ período ++ directorios m ++ "/Parciales/"

@@ -1,5 +1,8 @@
-import ProfesorRobot
 import CargarDatos
+import System.Environment
 
-main = do
-        ingresarMateria;
+main = do { getArgs >>= \x ->
+                       readFile (x!!0) >>=
+                       appendFile "MateriasDelCuatrimestre.lista" . show . leerTabla;
+                       appendFile "MateriasDelCuatrimestre.lista" "\n";
+          }

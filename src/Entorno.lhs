@@ -37,9 +37,3 @@ sonMaterias :: [String] -> [String]
 
 >sonMaterias :: [String] -> [String]
 >sonMaterias = map fst . filter ( \x -> elem (snd x) [ ".untref", ".ulp" ] ) . map ( break (=='.') )
-
->main = do
->         raiz <- getCurrentDirectory
->         archivos <- getCurrentDirectory >>= getDirectoryContents
->         let materias = sonMaterias archivos
->         foldr (>>) ( return () ) ( map ingresarMateria materias)
