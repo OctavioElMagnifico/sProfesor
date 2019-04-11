@@ -1,3 +1,4 @@
+>import ProfesorRobot
 >import CargarDatos
 >import System.Environment
 >import System.Directory
@@ -36,6 +37,11 @@ sonMaterias :: [String] -> [String]
 
 otra VARIABLE para rescatar en un archivo
 
+Variables para probar código
+
+>ejlinea = " Materia \n Nombre Oficial: Elementos de Matematica y Estadistica \n Nombre Para Carpetas: elementos \n Fechas Evento EsTP \n 06-09 Prueba Si \n07-09 TP1 Si \n21-09 TP2 Si\n 05-10 TP3 Si\n 2-11 TP4 Si \n 5-11 Recuperatorios Si"
+
+>archivoDeMaterias = "MateriasDelCuatrimestre.lista"
 >sufijos = [ ".untref", ".ulp" ] :: [String]
 
 >esMateria :: String -> Bool
@@ -44,8 +50,13 @@ otra VARIABLE para rescatar en un archivo
 >sonMaterias :: [String] -> [String]
 >sonMaterias = filter esMateria
 
+
 >main :: IO ()
 >main = do
 >         lista <- getCurrentDirectory >>= getDirectoryContents :: IO [String]
 >         let materias = sonMaterias lista
->         foldr (>>) ( return () ) ( map ingresarMateria materias)
+>         let listaDeMaterias = []
+>         foldr (>>) ( return () ) ( map ingresarMateria materias )
+>         archivoLeído <- readFile archivoDeMaterias
+>         let materias = recuperarMaterias $ archivoLeído
+>         putStrLn . concat $ map (\x -> "\n" ++ show x ) materias

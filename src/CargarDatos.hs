@@ -66,7 +66,7 @@ leerTP tp línea =  ((fecha, archivo),tp)
 recuperarMaterias :: String -> [Materia]
 recuperarMaterias archivo = lista
   where
-    lista =  map read . lines $ archivo
+    lista =  map read . filter( not . null ) . lines $ archivo
 
 ---Este ejemplo está porque el GHC de Stack no tolera caracteres UTF8.
 
@@ -76,5 +76,5 @@ ej = "sintildes.untref" :: String
 ingresarMateria :: String -> IO Materia
 ingresarMateria nombre = do  tablaMateria <- readFile nombre
                              let materia = leerTabla tablaMateria
-                             appendFile "MateriasDelCuatrimestre.untref" ( show materia ++ "\n" )
+                             appendFile "MateriasDelCuatrimestre.lista" ( "\n" ++ show materia )
                              return ( materia )
