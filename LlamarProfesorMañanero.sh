@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 cd $CUATRIMESTRE
 date -I > fecha.txt
 TR=$(TomarParciales)
