@@ -99,9 +99,9 @@ Esta función va a tomar una lista de pares materias que sabemos que tienen que 
 
 
 
->copiar = "rclone copy "
+>copiar = "rclone copy -u "
 >raiz = "instituto:UNTREF/"
->período = "Cuatrimestre2-2018/"
+>período = "Cuatrimestre1-2020/"
 
 -------- Función darOrden
 
