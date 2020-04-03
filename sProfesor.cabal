@@ -32,8 +32,14 @@ library
       Paths_sProfesor
   hs-source-dirs:
       src
-  build-depends:
-                base >=4.7 && <5, directory >= 1.3, wreq
+  build-depends:Map > 0.1
+              , aeson >= 1.4.5.0
+              , base >=4.7 && <5
+              , containers >= 0.6.0.1
+              , directory >= 1.3
+              , lens
+              , lens-aeson
+              , wreq
   default-language: Haskell2010
 
 executable LeerTabla
@@ -44,8 +50,10 @@ executable LeerTabla
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall 
   build-depends:
-      base >=4.7 && <5
-    , sProfesor
+                      base >=4.7 && <5
+                , aeson >= 1.4.5.0
+                , containers >= 0.6.0.1
+                , sProfesor
   default-language: Haskell2010
 
 executable GenerarEntorno
@@ -56,9 +64,11 @@ executable GenerarEntorno
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall 
   build-depends:
-      base >=4.7 && <5
-    , sProfesor
-    , directory >= 1.3
+                      base >=4.7 && <5
+                , aeson >= 1.4.5.0
+                , containers >= 0.6.0.1
+                , directory >= 1.3
+                , sProfesor
   default-language: Haskell2010
  
 executable TomarParciales
@@ -69,8 +79,10 @@ executable TomarParciales
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N -Wall 
   build-depends:
-      base >=4.7 && <5
-    , sProfesor
+                      base >=4.7 && <5
+                , aeson >= 1.4.5.0
+                , containers >= 0.6.0.1
+                , sProfesor
   default-language: Haskell2010
 
 test-suite sProfesor-test
@@ -82,6 +94,8 @@ test-suite sProfesor-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
-    , sProfesor
+                      base >=4.7 && <5
+                , aeson >= 1.4.5.0
+                , containers >= 0.6.0.1
+                , sProfesor
   default-language: Haskell2010

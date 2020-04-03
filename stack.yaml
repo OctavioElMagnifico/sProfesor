@@ -23,7 +23,7 @@ resolver: lts-14.7
 # User packages to be built.
 # Various formats can be used as shown in the example below.
 #
-# packages:
+packages:
 # - some-directory
 # - https://example.com/foo/bar/baz-0.0.2.tar.gz
 # - location:
@@ -36,7 +36,9 @@ resolver: lts-14.7
 # Dependency packages to be pulled from upstream that are not in the resolver
 # using the same syntax as the packages field.
 # (e.g., acme-missiles-0.3)
-# extra-deps: []
+extra-deps:
+  - Map-0.1.3.2@sha256:a58d3745ca4c607856d8f7797db52484b46380b0f978a1e81b19fd743827cefe,3043
+  - util-0.1.17.1@sha256:8b454b866d40d2b28d12b4606e87dd604f0162b10820face90e4188159650b9a,1114
 
 # Override default flag values for local packages and extra-deps
 # flags: {}

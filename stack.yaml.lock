@@ -3,7 +3,21 @@
 # For more information, please see the documentation at:
 #   https://docs.haskellstack.org/en/stable/lock_files
 
-packages: []
+packages:
+- completed:
+    hackage: Map-0.1.3.2@sha256:a58d3745ca4c607856d8f7797db52484b46380b0f978a1e81b19fd743827cefe,3043
+    pantry-tree:
+      size: 312
+      sha256: bd8ba2d184c9971eb61527549bb51d4f9ead4120cd08ead20e82a2e4de57b1da
+  original:
+    hackage: Map-0.1.3.2@sha256:a58d3745ca4c607856d8f7797db52484b46380b0f978a1e81b19fd743827cefe,3043
+- completed:
+    hackage: util-0.1.17.1@sha256:8b454b866d40d2b28d12b4606e87dd604f0162b10820face90e4188159650b9a,1114
+    pantry-tree:
+      size: 318
+      sha256: dc421017f236110f2e1ffe5ef1bf642fa3984d69f08bf9e4e62ea07652e02ed0
+  original:
+    hackage: util-0.1.17.1@sha256:8b454b866d40d2b28d12b4606e87dd604f0162b10820face90e4188159650b9a,1114
 snapshots:
 - completed:
     size: 523700
