@@ -85,6 +85,9 @@ toGregorian convierte la terna en UTC y uno sale hecho. Falta agregar la hora, 2
 >         fechaGregoriana = fromGregorian año día mes
 >         salidaUTC = UTCTime fechaGregoriana ( 60 * 60 * 24 - 60 )
 
+generarPedido :: [Char] -> [Char] -> Plazo -> Bool -> PedidoDeEnlace
+generarPedido nombreEvento directorio plazo esTP =
+
 λ> ccc <- getCurrentTime
 λ> ooo = fechaaUTC fechaEjemplo ccc
 λ> addUTCTime ( 60*60*24*3 ) ooo
