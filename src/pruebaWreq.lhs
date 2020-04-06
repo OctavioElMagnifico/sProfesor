@@ -1,9 +1,10 @@
 > {-# LANGUAGE OverloadedStrings #-}
 > import Network.Wreq
 > import Control.Lens ( (^.), (^?), (.~) , (&) )
-> import Data.Aeson.Lens (_String, key)
-> import Data.Map as Map
+-- -- > import Data.Aeson.Lens (_String, key)
+> import Data.Time
 > import Data.Aeson
+> import ProfesorRobot
 
 
 > dropboxGenerar = "https://api.dropboxapi.com/2/file_requests/create" :: String
@@ -68,8 +69,29 @@ n ecesito una función que lleve el tipo ad hoc fecha a UTC. Probablemente sea m
   putStrLn . show $ entrada ^. key "file_request_count"
  }
 
+
+acá recupero el día, año y mes en base a l fecha del dia
+λ> c = getCurrentTime
+λ> let (a,m,d) = toGregorian . utctDay $ c
+
+toGregorian convierte la terna en UTC y uno sale hecho. Falta agregar la hora, 23:59
+λ>  UTCTime fechaGreg segundos nos da un elemento de tipo time con la fecha y hora deseados.
+
+> fechaEjemplo = Fecha 7 6
+
+> fechaaUTC :: Fecha -> UTCTime -> UTCTime
+> fechaaUTC ( Fecha día mes ) utc = salidaUTC
+>   where (año,m,d) = toGregorian . utctDay $ utc
+>         fechaGregoriana = fromGregorian año día mes
+>         salidaUTC = UTCTime fechaGregoriana ( 60 * 60 * 24 - 60 )
+
+λ> ccc <- getCurrentTime
+λ> ooo = fechaaUTC fechaEjemplo ccc
+λ> addUTCTime ( 60*60*24*3 ) ooo
+
 > main :: IO ()
 > main = do {
 > pedir
 > }
 
+gg
